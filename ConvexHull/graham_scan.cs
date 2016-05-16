@@ -22,26 +22,30 @@ namespace ConvexHull
             return ((q.getX() - p.getX()) * (r.getY() - p.getY()) - (r.getX() - p.getX()) * (q.getY() - p.getY())).CompareTo(0);
         }
 
-        public void keepLeft(List<Point> hull, Point r)
+        public void keepLeft(List<Point> hull, Point r, bool consoleDebug)
         {
             while (hull.Count > 1 && turn(hull[hull.Count - 2], hull[hull.Count - 1], r) != TURN_LEFT)
             {
-                Console.WriteLine("Removing Point ({0}, {1}) because turning right ", hull[hull.Count - 1].getX(), hull[hull.Count - 1].getY());
+                if (consoleDebug)
+                    Console.WriteLine("Removing Point ({0}, {1}) because turning right ", hull[hull.Count - 1].getX(), hull[hull.Count - 1].getY());
                 hull.RemoveAt(hull.Count - 1);
             }
             if (hull.Count == 0 || hull[hull.Count - 1] != r)
             {
-                Console.WriteLine("Adding Point ({0}, {1})", r.getX(), r.getY());
+                if (consoleDebug)
+                    Console.WriteLine("Adding Point ({0}, {1})", r.getX(), r.getY());
                 hull.Add(r);
             }
-            Console.WriteLine("# Current Convex Hull #");
-            foreach (Point value in hull)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine("# Current Convex Hull #");
+                foreach (Point value in hull)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            Console.WriteLine();
-            Console.WriteLine();
-
         }
 
         public double getAngle(Point p1, Point p2)
@@ -91,15 +95,18 @@ namespace ConvexHull
             return arrSortedInt;
         }
 
-        public void convexHull(List<Point> points)
+        public List<Point> convexHull(List<Point> points, bool consoleDebug = false)
         {
-            Console.WriteLine("# List of Point #");
-            foreach (Point value in points)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine("# List of Point #");
+                foreach (Point value in points)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            Console.WriteLine();
-            Console.WriteLine();
 
             Point p0 = null;
             foreach (Point value in points)
@@ -120,10 +127,13 @@ namespace ConvexHull
             }
 
             order = MergeSort(p0, order);
-            Console.WriteLine("# Sorted points based on angle with point p0 ({0},{1})#", p0.getX(), p0.getY());
-            foreach (Point value in order)
+            if (consoleDebug)
             {
-                Console.WriteLine("(" + value.getX() + "," + value.getY() + ") : {0}", getAngle(p0, value));
+                Console.WriteLine("# Sorted points based on angle with point p0 ({0},{1})#", p0.getX(), p0.getY());
+                foreach (Point value in order)
+                {
+                    Console.WriteLine("(" + value.getX() + "," + value.getY() + ") : {0}", getAngle(p0, value));
+                }
             }
             List<Point> result = new List<Point>();
             result.Add(p0);
@@ -131,24 +141,32 @@ namespace ConvexHull
             result.Add(order[1]);
             order.RemoveAt(0);
             order.RemoveAt(0);
-            Console.WriteLine("# Current Convex Hull #");
-            foreach (Point value in result)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine("# Current Convex Hull #");
+                foreach (Point value in result)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            Console.WriteLine();
-            Console.WriteLine();
             foreach (Point value in order)
             {
-                keepLeft(result, value);
+                keepLeft(result, value, consoleDebug);
             }
-            Console.WriteLine();
-            Console.WriteLine("# Convex Hull #");
-            foreach (Point value in result)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine();
+                Console.WriteLine("# Convex Hull #");
+                foreach (Point value in result)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
+
+            return result;
         }
 
     }

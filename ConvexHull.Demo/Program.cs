@@ -24,7 +24,7 @@ namespace ConvexHull
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            gs.convexHull(listPoints);
+            gs.convexHull(listPoints, true);
             stopwatch.Stop();
             float elapsed_time = stopwatch.ElapsedMilliseconds;
             Console.WriteLine("Elapsed time: {0} milliseconds", elapsed_time);
@@ -38,7 +38,7 @@ namespace ConvexHull
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            jm.convexHull(listPoints);
+            jm.convexHull(listPoints, true);
             stopwatch.Stop();
             float elapsed_time = stopwatch.ElapsedMilliseconds;
             Console.WriteLine("Elapsed time: {0} milliseconds", elapsed_time);

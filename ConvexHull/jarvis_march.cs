@@ -49,15 +49,18 @@ namespace ConvexHull
             return Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI;
         }
 
-        public void convexHull(List<Point> points)
+        public List<Point> convexHull(List<Point> points, bool consoleDebug = false)
         {
-            Console.WriteLine("# List of Point #");
-            foreach (Point value in points)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine("# List of Point #");
+                foreach (Point value in points)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            Console.WriteLine();
-            Console.WriteLine();
             List<Point> hull = new List<Point>();
             foreach (Point p in points)
             {
@@ -74,24 +77,31 @@ namespace ConvexHull
             }
             Point q;
             int counter = 0;
-            Console.WriteLine("The lowest point is (" + hull[0].getX() + ", " + hull[0].getY() + ")");
+            if (consoleDebug)
+                Console.WriteLine("The lowest point is (" + hull[0].getX() + ", " + hull[0].getY() + ")");
             while (counter < hull.Count)
             {
                 q = nextHullPoint(points, hull[counter]);
                 if (q != hull[0])
                 {
-                    Console.WriteLine("Next Point is (" + q.getX() + "," + q.getY() + ") compared to Point (" + hull[hull.Count - 1].getX() + "," + hull[hull.Count - 1].getY() + ") : " + getAngle(hull[hull.Count - 1], q) + " degrees");
+                    if (consoleDebug)
+                        Console.WriteLine("Next Point is (" + q.getX() + "," + q.getY() + ") compared to Point (" + hull[hull.Count - 1].getX() + "," + hull[hull.Count - 1].getY() + ") : " + getAngle(hull[hull.Count - 1], q) + " degrees");
                     hull.Add(q);
                 }
                 counter++;
             }
-            Console.WriteLine();
-            Console.WriteLine("# Convex Hull #");
-            foreach (Point value in hull)
+            if (consoleDebug)
             {
-                Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                Console.WriteLine();
+                Console.WriteLine("# Convex Hull #");
+                foreach (Point value in hull)
+                {
+                    Console.Write("(" + value.getX() + "," + value.getY() + ") ");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
+
+            return hull;
         }
 
     }
